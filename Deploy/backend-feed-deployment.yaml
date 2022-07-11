@@ -1,24 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: udagram-api-feed
+  name: backend-feed
   labels:
-    app: udagram-api-feed
+    app: backend-feed
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
-      app: udagram-api-feed
+      app: backend-feed
   template:
     metadata:
       labels:
-        app: udagram-api-feed
+        app: backend-feed
     spec:
       containers:
-      - name: udagram-api-feed
+      - name: backend-feed
         image: nghiadthp/udagram-api-feed
         ports:
         - containerPort: 80
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "250m"
+          limits:
+            memory: "2048Mi"
+            cpu: "500m"      
         env:
         - name: URL
           valueFrom:

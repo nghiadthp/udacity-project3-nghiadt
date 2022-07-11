@@ -1,27 +1,49 @@
-apiVersion: extensions/v1beta1
+# apiVersion: extensions/v1beta1
+# kind: Deployment
+# metadata:
+#   labels:
+#     service: udagram-reverseproxy
+#   name: udagram-reverseproxy
+# spec:
+#   replicas: 1
+#   template:
+#     metadata:
+#       labels:
+#         service: udagram-reverseproxy
+#     spec:
+#       containers:
+#       - image: nghiadthp/udagram-reverseproxy
+#         name: udagram-reverseproxy
+#         imagePullPolicy: Always          
+#         resources:
+#           requests:
+#             memory: "64Mi"
+#             cpu: "250m"
+#           limits:
+#             memory: "2048Mi"
+#             cpu: "500m"       
+#         ports:
+#         - containerPort: 8080
+#       restartPolicy: Always
+apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: reverseproxy
   labels:
-    service: udagram-reverseproxy1
-  name: udagram-reverseproxy1
+    app: reverseproxy
 spec:
-  replicas: 1
+  replicas: 2
+  selector:
+    matchLabels:
+      app: reverseproxy
   template:
     metadata:
       labels:
-        service: udagram-reverseproxy1
+        app: reverseproxy
     spec:
       containers:
-      - image: nghiadthp/udagram-reverseproxy
-        name: udagram-reverseproxy1
-        imagePullPolicy: Always          
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "1024Mi"
-            cpu: "500m"       
+      - name: reverseproxy
+        image: nghiadthp/udagram-reverseproxy
         ports:
-        - containerPort: 8080
-      restartPolicy: Always
+        - containerPort: 80
+
