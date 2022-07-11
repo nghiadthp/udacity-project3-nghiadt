@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-config
+data:
+  AWS_BUCKET: udacity-project3-nghiadt
+  AWS_PROFILE: default
+  AWS_REGION: us-east-1
+  JWT_SECRET: testing
+  POSTGRESS_DB: database-1
+  POSTGRESS_HOST: database-1.c8l6rpcx6w6p.us-east-1.rds.amazonaws.com
+  URL: http://localhost:8100  
+
+  
