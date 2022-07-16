@@ -19,13 +19,13 @@ spec:
         image: nghiadthp/udagram-api-user
         ports:
         - containerPort: 80
-        resources:
-          requests:
-            memory: "1024Mi"
-            cpu: "250m"
-          limits:
-            memory: "2048Mi"
-            cpu: "500m"      
+        # resources:
+        #   requests:
+        #     memory: "1024Mi"
+        #     cpu: "250m"
+        #   limits:
+        #     memory: "2048Mi"
+        #     cpu: "500m"      
         env:
         - name: URL
           valueFrom:
