@@ -32,7 +32,7 @@ metadata:
   labels:
     app: reverseproxy
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: reverseproxy
@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
       - name: reverseproxy
-        image: nghiadthp/udagram-reverseproxy
+        image: nghiadthp/reverseproxy
         ports:
         - containerPort: 80
 
