@@ -30,6 +30,7 @@ plugins/ios.json
 $RECYCLE.BIN/
 postgres_dev/
 logfile
+udagram-api/
 
 .DS_Store
 Thumbs.db
