@@ -5,7 +5,7 @@ metadata:
   labels:
     app: udagram-reverseproxy
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: udagram-reverseproxy
@@ -19,3 +19,8 @@ spec:
         image: nghiadthp/reverseproxy:v1
         ports:
         - containerPort: 8080
+        # resources:
+        #   requests:
+        #     memory: "1024Mi"
+        #   limits:
+        #     memory: "1024Mi"

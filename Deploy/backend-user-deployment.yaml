@@ -16,22 +16,65 @@ spec:
     spec:
       containers:
       - image: nghiadthp/udagram-api-user:v1
-        name: udagram-api-user 
+        name: udagram-api-user
+        # resources:
+        #   requests:
+        #     cpu: "200m"
+        #   limits:
+        #     cpu: "1024m" 
         imagePullPolicy: Always  
         env:
         - name: URL
-          value: http://localhost:8080
-        - name: JWT_SECRET
-          value: hello
-        - name: POSTGRES_DB
-          value: postgres
-        - name: POSTGRES_HOST
-          value: database-1.c8l6rpcx6w6p.us-east-1.rds.amazonaws.com
-        - name: POSTGRES_PASSWORD
-          value: SpringSpring123
-        - name: POSTGRES_USERNAME
-          value: postgres
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: URL
         - name: AWS_BUCKET
-          value: arn:aws:s3:::udacity-project3-nghiadt
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: AWS_BUCKET
+        - name: AWS_PROFILE
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: AWS_PROFILE
+        - name: AWS_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: AWS_REGION
+        - name: JWT_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: JWT_SECRET
+        - name: POSTGRESS_DB
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: POSTGRESS_DB
+        - name: POSTGRESS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: POSTGRESS_HOST
+        - name: POSTGRESS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: env-secret
+              key: POSTGRESS_PASSWORD
+        - name: POSTGRESS_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: env-secret
+              key: POSTGRESS_USERNAME      
+        volumeMounts:
+        - name: aws-secret
+          mountPath: "/root/.aws/"
+          readOnly: true        
       restartPolicy: Always
-
+      volumes:
+      - name: aws-secret
+        secret:
+          secretName: aws-secret
