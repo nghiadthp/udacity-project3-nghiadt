@@ -1,0 +1,184 @@
+aws sts get-session-token --serial-number arn:aws:iam::945963971097:mfa/nghiadt2 --token-code 
+
+{
+	"Version":"2012-10-17",
+	"Statement":[
+	  {
+		  "Sid":"Stmt1625306057759",
+		  "Principal":"*",
+		  "Action":"s3:*",
+		  "Effect":"Allow",
+		  "Resource":"arn:aws:s3:::udacity-project3-nghiadt"
+	  }
+	]
+}
+
+[
+ {
+     "AllowedHeaders":[
+         "*"
+     ],
+     "AllowedMethods":[
+         "POST",
+         "GET",
+         "PUT",
+         "DELETE",
+         "HEAD"
+     ],
+     "AllowedOrigins":[
+         "*"
+     ],
+     "ExposeHeaders":[
+
+     ]
+ }
+]
+
+psql -h database-1.c8l6rpcx6w6p.us-east-1.rds.amazonaws.com -U postgres postgres
+SpringSpring123
+\list
+\c postgres
+\dt
+
+
+*** EKS ***
+aws eks update-kubeconfig --region us-east-1 --name nghiadt-project3-cluster
+kubectl get nodes
+
+kubectl exec --stdin --tty backend-feed-7f55bf646b-c5xww -- /bin/bash
+curl 10.100.131.137:8080/api/v0/feed
+
+*** DOCKER
+
+# Make sure the Docker services are running in your local machine
+# Remove unused and dangling images
+docker image prune --all
+
+# Run this command from the directory where you have the "docker-compose-build.yaml" file present
+docker-compose -f docker-compose-build.yaml build --parallel
+
+# upload docker
+docker-compose up
+
+# Run from the directory where you have the compose file present
+docker-compose config
+
+# Run from the directory where you have the compose file present
+docker-compose down
+# To delete all dangling images
+docker image prune --all
+
+docker build .
+docker images
+docker run {IMAGE_ID}
+docker ps
+docker container ls
+docker kill id
+
+# See the list of running containers
+docker ps
+# Open bash into a particular container
+docker exec -it 0baea592db9d bash
+# Navigate to the specific file to ensure that your edits are there. 
+cat <qualified-filename>
+
+
+
+
+# Apply env variables and secrets
+kubectl apply -f aws-secret.yaml
+kubectl apply -f env-secret.yaml
+kubectl apply -f env-configmap.yaml
+
+kubectl apply -f backend-feed-deployment.yaml
+kubectl apply -f backend-feed-service.yaml
+kubectl apply -f backend-user-deployment.yaml
+kubectl apply -f backend-user-service.yaml
+kubectl apply -f frontend-deployment.yaml
+kubectl apply -f frontend-service.yaml
+kubectl apply -f reverseproxy-deployment.yaml
+kubectl apply -f reverseproxy-service.yaml
+
+kubectl expose deployment frontend --type=LoadBalancer --name=publicfrontend
+kubectl expose deployment reverseproxy --type=LoadBalancer --name=publicreverseproxy
+kubectl get services 
+
+docker build ./udagram-frontend -t nghiadthp/udagram-frontend:v6
+docker push nghiadthp/udagram-frontend:v6
+kubectl set image deployment frontend frontend=nghiadthp/udagram-frontend:v6
+
+docker build . -t nghiadthp/reverseproxy:v1
+docker push nghiadthp/reverseproxy:v1
+kubectl set image deployment udagram-reverseproxy udagram-reverseproxy=nghiadthp/reverseproxy:v1
+
+
+docker push nghiadthp/udagram-api-user:v1
+docker push nghiadthp/udagram-frontend:v1
+docker push nghiadthp/reverseproxy:v1
+
+docker build -t udagram-frontend ./udagram-frontend
+
+
+kubectl get pods
+
+kubectl delete pod backend-feed-75bb9d7ccf-5vnbn       0/1     ImagePullBackOff   0          7m49s
+kubectl delete pod backend-feed-75bb9d7ccf-fdkrq       0/1     ImagePullBackOff   0          7m42s
+kubectl delete pod backend-feed-75bb9d7ccf-v8nlm       0/1     ImagePullBackOff   0          7m45s
+kubectl delete pod backend-user-7c6d5cc9c8-c4scf       0/1     ImagePullBackOff   0          7m35s
+kubectl delete pod backend-user-7c6d5cc9c8-tvjzn       0/1     ImagePullBackOff   0          7m39s
+kubectl delete pod frontend-595bb7c9f7-s4kng           0/1     ImagePullBackOff   0          7m32s
+kubectl delete pod frontend-67f455885c-9mhwh           0/1     ImagePullBackOff   0          7m26s
+kubectl delete pod frontend-67f455885c-krjqw           0/1     ImagePullBackOff   0          7m29s
+kubectl delete pod reverseproxy-67d8789b8f-rrbwr       0/1     ImagePullBackOff   0          7m22s
+kubectl delete pod reverseproxy-dc499dc99-8m2jk        0/1     ImagePullBackOff   0          7m19s
+kubectl delete pod reverseproxy-dc499dc99-v9xqz        0/1     ImagePullBackOff   0          7m16s
+kubectl delete pod udagram-api-feed-5d6d9dfd99-5b9g9   0/1     ImagePullBackOff   0          7m5s
+kubectl delete pod udagram-api-feed-5d6d9dfd99-nxk9b   0/1     ImagePullBackOff   0          7m12s
+kubectl delete pod udagram-api-feed-5d6d9dfd99-txh2j   0/1     ImagePullBackOff   0          7m9s
+kubectl delete pod udagram-api-user-58f989dc86-9dsxc   0/1     ImagePullBackOff   0          6m58s
+kubectl delete pod udagram-api-user-58f989dc86-qvhx6   0/1     ImagePullBackOff   0          7m1s
+kubectl delete pod udagram-frontend-8964bf589-zhc8g    0/1     ImagePullBackOff   0          6m52s
+kubectl delete pod udagram-frontend-8964bf589-zx6kw    0/1     ImagePullBackOff   0          6m55s
+  
+
+kubectl get services 
+kubectl delete svc backend-user         ClusterIP      10.100.29.68     <none>                                                                    8080/TCP       31m
+kubectl delete svc frontend             ClusterIP      10.100.210.145   <none>                                                                    8100/TCP       31m
+kubectl delete svc publicfrontend       LoadBalancer   10.100.136.216   a14f33097fb3147fa9347ea10e587b7b-1018091742.us-east-1.elb.amazonaws.com   80:31216/TCP   30m
+kubectl delete svc publicreverseproxy   LoadBalancer   10.100.179.23    a40dc0e86c8ec46e7b4c19d842dcb41c-1132566405.us-east-1.elb.amazonaws.com   80:32726/TCP   27m
+kubectl delete svc reverseproxy         ClusterIP      10.100.89.230    <none> 
+
+kubectl delete deployment backend-user       2/2     2            2           61m
+kubectl delete deployment frontend           2/2     1            2           61m
+kubectl delete deployment reverseproxy       0/2     2            0           61m
+kubectl delete deployment udagram-api-feed   3/3     3            3           43m
+kubectl delete deployment udagram-api-user   2/2     2            2           43m
+kubectl delete deployment udagram-frontend   2/2     2            2           37m
+
+
+
+# Check the deployment names and their pod status
+kubectl get deployments
+# Create a Service object that exposes the frontend deployment
+# The command below will ceates an external load balancer and assigns a fixed, external IP to the Service.
+kubectl expose deployment frontend --type=LoadBalancer --name=publicfrontend
+# Repeat the process for the *reverseproxy* deployment. 
+# Check name, ClusterIP, and External IP of all deployments
+kubectl get services 
+kubectl get pods 
+# It should show the STATUS as Running
+
+
+
+
+kubectl get pod udagram-api-feed-7c994f9788-xvzrd --output=yaml
+kubectl autoscale deployment udagram-api-feed --cpu-percent=70 --min=3 --max=5
+kubectl autoscale deployment udagram-api-user --cpu-percent=70 --min=3 --max=5
+
+kubectl logs <your pod name>
+
+kubectl exec --stdin --tty backend-user-78645cd795-p6swj -- /bin/bash
+
+
+"<?xml version="1.0" encoding="UTF-8"?>
+<Error><Code>InvalidAccessKeyId</Code><Message>The AWS Access Key Id you provided does not exist in our records.</Message><AWSAccessKeyId>ASIA5YP6YWIM5DQ4S74D</AWSAccessKeyId><RequestId>JMCJNZX2681ZHSY9</RequestId><HostId>CodiiHKpaUkCUp79xtvxD52Iv0jC7MCZUV9CrFQU+Sf74SFh7jFXz/0nQ1W+lIIAcvnmuFzz48s=</HostId></Error>"
